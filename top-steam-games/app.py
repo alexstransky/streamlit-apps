@@ -8,8 +8,11 @@ st.set_page_config(layout="wide")
 # Create main container for tabs
 main_container = st.container()
 
-# Load the data
-data = pd.read_csv('top-steam-games/data/steam_top_100_played_games_clean.csv')
+# Load the data (locally)
+# data = pd.read_csv('data/steam_top_100_played_games_clean.csv')
+
+# Load the data (github)
+data = pd.read_csv('../data/steam_top_100_played_games_clean.csv')
 
 # Create placeholder for tabs
 tab_container = st.container()
@@ -20,19 +23,21 @@ tabs = tab_container.tabs(["Top 10 Games", "Game Statistics", "Paid Games Trends
 
 # Add content to tabs
 with tabs[0]:
-    # Filter options
-    price_categories = data['Price Category'].unique().tolist()
-    genre_tags = (data['Genre Tags']
-                .str.split(',')
-                .explode()
-                .str.strip()
-                .unique()
-                .tolist())
-    genre_tags = sorted([tag for tag in genre_tags if tag])
+    # Show filters in sidebar
+    with st.sidebar:
+        # Filter options
+        price_categories = data['Price Category'].unique().tolist()
+        genre_tags = (data['Genre Tags']
+                    .str.split(',')
+                    .explode()
+                    .str.strip()
+                    .unique()
+                    .tolist())
+        genre_tags = sorted([tag for tag in genre_tags if tag])
 
-    # Sidebar filters
-    selected_price = st.sidebar.multiselect('Select Price Category', price_categories)
-    selected_genre = st.sidebar.multiselect('Select Genre Tag', genre_tags)
+        # Sidebar filters
+        selected_price = st.multiselect('Select Price Category', price_categories)
+        selected_genre = st.multiselect('Select Genre Tag', genre_tags)
 
     # Filter data based on selections
     filtered_data = data.copy()
@@ -69,7 +74,6 @@ with tabs[0]:
             tooltip=[
                 alt.Tooltip('Name:N', title='Game'),
                 alt.Tooltip('Current Players:Q', format=',', title='Current Players'),
-                alt.Tooltip('Peak Today:Q', format=',', title='Peak Today'),
                 alt.Tooltip('Price Category:N'),
                 alt.Tooltip('Price:Q', format='$.2f')
             ]
@@ -80,7 +84,9 @@ with tabs[0]:
             y=alt.Y('Peak Today:Q'),
             tooltip=[
                 alt.Tooltip('Name:N', title='Game'),
-                alt.Tooltip('Peak Today:Q', format=',', title='Peak Today')
+                alt.Tooltip('Peak Today:Q', format=',', title='Peak Today'),
+                alt.Tooltip('Price Category:N'),
+                alt.Tooltip('Price:Q', format='$.2f')
             ]
         )
         
@@ -92,6 +98,9 @@ with tabs[0]:
         st.write("No games found matching the selected filters.")
 
 with tabs[1]:
+    # Clear sidebar for Tab 2
+    st.sidebar.empty()
+
     st.title('Game Statistics')
     
     # Create a list of available games for the selectbox
@@ -127,6 +136,9 @@ with tabs[1]:
         st.divider()
 
 with tabs[2]:
+    # Clear sidebar for Tab 3
+    st.sidebar.empty()
+    
     st.title('Paid Games Analysis')
     
     # Filter for paid games only
