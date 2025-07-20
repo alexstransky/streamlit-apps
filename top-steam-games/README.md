@@ -5,6 +5,10 @@ This project is a Streamlit application that visualizes Steam games data through
 2. Detailed game statistics with store links and thumbnails
 3. Price analysis for paid games
 
+## Data Source
+
+Data sourced from data.world: https://data.world/makeovermonday/2025w3-steam-top-100-played-games
+
 ## Features
 
 - **Top 10 Games View**:
