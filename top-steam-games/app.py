@@ -9,7 +9,7 @@ st.set_page_config(layout="wide")
 main_container = st.container()
 
 # Load the data
-data = pd.read_csv('data/steam_top_100_played_games_clean.csv')
+data = pd.read_csv('top-steam-games/data/steam_top_100_played_games_clean.csv')
 
 # Create placeholder for tabs
 tab_container = st.container()
