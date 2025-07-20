@@ -12,7 +12,7 @@ main_container = st.container()
 # data = pd.read_csv('data/steam_top_100_played_games_clean.csv')
 
 # Load the data (github)
-data = pd.read_csv('../data/steam_top_100_played_games_clean.csv')
+data = pd.read_csv('top-steam-games/data/steam_top_100_played_games_clean.csv')
 
 # Create placeholder for tabs
 tab_container = st.container()
